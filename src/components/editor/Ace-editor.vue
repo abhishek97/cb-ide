@@ -1,28 +1,39 @@
 <template>
-  <pre id="editor"></pre>
+  <editor v-model="content" :lang=languageMode theme="chrome"  height="400px" width="100%" ></editor>
 </template>
 
 <script>
-  import '../../assets/js/ace'
+  import editor from 'vue2-ace-editor'
+  import 'brace/mode/c_cpp'
+  import 'brace/mode/java'
+  import 'brace/mode/python'
+  import 'brace/mode/javascript'
+
   export default {
     name: 'ace-editor',
-    mounted () {
-      const editor = ace.edit('editor')
-      editor.setTheme('ace/theme/dawn')
-      editor.getSession().setMode('ace/mode/c_cpp')
-      editor.$blockScrolling = Infinity
+    components : { editor },
+    props: {
+      language: {
+        default: null
+      }
+    },
+    computed: {
+      languageMode () {
+        switch(this.language){
+          case 'C': return 'c_cpp'
+          case 'C++': return 'c_cpp'
+          case 'Java': return 'java'
+          case 'Python': return 'python'
+          case 'Javascript': return 'javascript'
+          default : return 'c_cpp'
+        }
+      }
+    },
+    data () {
+      return {
+        content: ''
+      }
     }
   }
 </script>
 
-<style scoped>
-  #editor {
-    position: relative;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    border-radius: 0px;
-    height: 400px;
-  }
-</style>

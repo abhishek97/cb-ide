@@ -20,11 +20,11 @@
           <panel-top></panel-top>
         </div>
         <div>
-          <editor-buttons></editor-buttons>
+          <editor-buttons @customInput="toggleCustomInput" ></editor-buttons>
         </div>
         <div class="col-md-4 colw90">
           <div>
-            <custom-input></custom-input>
+            <custom-input @customInput="toggleCustomInput" v-if="showCustomInput"></custom-input>
           </div>
           <div>
             <actions></actions>
@@ -58,6 +58,16 @@ export default {
     OutputComp,
     PanelTop,
     Settings
+  },
+  data () {
+    return {
+      showCustomInput: false
+    }
+  },
+  methods: {
+    toggleCustomInput () {
+      this.showCustomInput = !this.showCustomInput
+    }
   }
 }
 </script>
