@@ -5,7 +5,7 @@
            style="margin-bottom: 0px; border-radius:0px; border-bottom-width:0px;   ">
         <div class="headPanel panel-heading" style=" border-bottom-width:0px; ">
           <!-- Single button -->
-          <editor-dropdown :options=languages :selected.sync=currentLanguage ></editor-dropdown>
+          <editor-dropdown :options=languages :selected=this.$store.state.language ></editor-dropdown>
           <div class="btn-group">
             <button type="button" id="settingButton" class="btn hovercard-light btn-sm btn-filled">
               Setting <span class="fa fa-cog"></span>
@@ -23,27 +23,25 @@
           </ul>
         </div>
       </div>
-      <ace-editor :language=currentLanguage :content.sync=code ></ace-editor>
+      <slot></slot>
     </div>
     <p class="autoSaveText">Auto Saved!</p>
   </div>
 </template>
 
 <script>
-  import AceEditor from './Ace-editor.vue'
   import editorDropdown from './editor-dropdown.vue'
   export default {
     name: 'editor-buttons',
-    components: { AceEditor, editorDropdown },
+    components: { editorDropdown },
     data () {
       return {
-        currentLanguage: 'C++',
         languages: ['C', 'C++', 'Java', 'Python', 'Javascript']
       }
     },
     methods: {
       customInputToggle () {
-        this.$emit('customInput')
+        this.$store.commit('toggleCustomInput')
       }
     }
   }

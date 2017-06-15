@@ -20,11 +20,13 @@
           <panel-top></panel-top>
         </div>
         <div>
-          <editor-buttons @customInput="toggleCustomInput" ></editor-buttons>
+          <editor-buttons>
+            <ace-editor :language=this.$store.state.language :content=this.$store.state.code ></ace-editor>
+          </editor-buttons>
         </div>
         <div class="col-md-4 colw90">
           <div>
-            <custom-input @customInput="toggleCustomInput" v-if="showCustomInput"></custom-input>
+            <custom-input v-show="this.$store.state.showCustomInput"></custom-input>
           </div>
           <div>
             <actions></actions>
@@ -46,6 +48,7 @@ import EditorButtons from './editor/Editor-buttons.vue'
 import OutputComp from './editor/Output-comp.vue'
 import PanelTop from './editor/Panel-top.vue'
 import Settings from './editor/Settings.vue'
+import AceEditor from './editor/Ace-editor.vue'
 
  //
  // console.log(editor);
@@ -57,11 +60,14 @@ export default {
     EditorButtons,
     OutputComp,
     PanelTop,
-    Settings
+    Settings,
+    AceEditor
   },
   data () {
     return {
-      showCustomInput: false
+      showCustomInput: false,
+      code: '',
+      language: 'C++'
     }
   },
   methods: {

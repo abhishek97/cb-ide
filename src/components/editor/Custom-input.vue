@@ -21,7 +21,7 @@
     name: 'custom-input',
     methods: {
       customInputToggle () {
-        this.$emit('customInput')
+        this.$store.commit('toggleCustomInput')
       }
     }
   }

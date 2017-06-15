@@ -5,7 +5,7 @@
         <div class="panel panel-default">
           <div class="panel-heading">Output</div>
           <div class="panel-body">
-            <pre id="output"></pre>
+            <pre id="output">{{this.$store.state.output}}</pre>
           </div>
         </div>
       </div>

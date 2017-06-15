@@ -1,9 +1,9 @@
 <template>
-  <editor v-model="content" :lang=languageMode theme="chrome"  height="400px" width="100%" ></editor>
+  <pre id="editor" @change="codeChange()"></pre>
 </template>
 
 <script>
-  import editor from 'vue2-ace-editor'
+  import ace from 'brace'
   import 'brace/mode/c_cpp'
   import 'brace/mode/java'
   import 'brace/mode/python'
@@ -11,10 +11,23 @@
 
   export default {
     name: 'ace-editor',
-    components : { editor },
+    mounted () {
+      this.editor = ace.edit('editor')
+      this.editor.getSession().setMode(`ace/mode/${this.languageMode}`);
+
+      this.editor.on('change', ()=>{
+        this.$store.commit('updateCode',this.editor.getValue())
+      })
+
+    },
     props: {
       language: {
-        default: null
+        default: 'C++'
+      }
+    },
+    methods: {
+      codeChange () {
+        console.log('change');
       }
     },
     computed: {
@@ -29,11 +42,22 @@
         }
       }
     },
-    data () {
-      return {
-        content: ''
+    watch: {
+      languageMode(newMode){
+        this.editor.getSession().setMode(`ace/mode/${newMode}`);
       }
     }
   }
 </script>
 
+<style scoped>
+  #editor {
+    position: relative;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 0px;
+    height: 400px;
+  }
+</style>
