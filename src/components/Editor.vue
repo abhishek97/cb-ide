@@ -49,7 +49,6 @@ import OutputComp from './editor/Output-comp.vue'
 import PanelTop from './editor/Panel-top.vue'
 import Settings from './editor/Settings.vue'
 import AceEditor from './editor/Ace-editor.vue'
-
  //
  // console.log(editor);
 export default {
