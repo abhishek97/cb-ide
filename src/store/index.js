@@ -7,6 +7,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import base64 from 'base-64'
+import samples from '../assets/js/sample-source'
 
 Vue.use(Vuex)
 
@@ -30,6 +31,9 @@ export default new Vuex.Store({
     },
     updateOutput (state,val) {
       state.output = val
+    },
+    resetCode (state) {
+      state.code = samples[state.language]
     }
   },
   actions: {
