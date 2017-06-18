@@ -2,10 +2,10 @@
   <div class="col-md-8 colw90 panelTopOptions">
               <textarea id="fileName" class="panelTopTextbox textbox hovercard-light panelTopOptions" rows="1"
                         style="font-size:16px!important;width: 25%; max-width:100%; margin: 0 5px 0 0!important;resize: none!important;"
-                        placeholder="Enter file name"></textarea>
+                        placeholder="Enter file name" v-model="filename" ></textarea>
     <div class="btn-group panelTopOptions panelTopButton" style="float: right">
-      <button type="button" id="downlaod" class="btn hover-light btn-sm btn-filled"
-              onclick="saveCodeAsFile();">Download
+      <button type="button" id="downlaod" class="btn hover-light btn-sm btn-filled" @click="downloadCode()">
+        Download
       </button>
     </div>
     <div class="btn-group panelTopOptions panelTopButton" style="float: right;margin-right: 5px;">
@@ -42,6 +42,21 @@
           vm.$store.commit('uploadCode', e.target.result)
         }
         reader.readAsText(file)
+      },
+      downloadCode () {
+        const code = this.$store.state.code
+        const el = document.createElement('a')
+        el.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(code))
+        el.setAttribute('download', this.filename)
+        el.style.display = 'none'
+        document.body.appendChild(el)
+        document.body.removeChild(el)
+        el.click()
+      }
+    },
+    data () {
+      return {
+        filename: ''
       }
     }
   }

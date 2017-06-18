@@ -13,7 +13,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    code: '',
+    code: samples['C++'],
     language: 'C++',
     showCustomInput: 'false',
     customInput: '',
