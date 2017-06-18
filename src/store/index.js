@@ -22,6 +22,7 @@ export default new Vuex.Store({
   mutations: {
     toggleCustomInput (state) {
       state.showCustomInput = !state.showCustomInput
+      state.customInput = ''
     },
     changeLanguage (state, val) {
       state.language = val
@@ -37,6 +38,9 @@ export default new Vuex.Store({
     },
     resetCode (state) {
       state.code = samples[state.language]
+    },
+    changeCustomInput (state,val) {
+      state.customInput = val
     }
   },
   actions: {
@@ -58,7 +62,7 @@ export default new Vuex.Store({
               lang,
               source: base64.encode(state.code),
               test_count: 1,
-              input: [state.customInput],
+              input: [base64.encode(state.customInput)],
               expected_output: [''],
               get_output: true,
               wait: true
