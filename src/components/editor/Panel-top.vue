@@ -9,10 +9,40 @@
       </button>
     </div>
     <div class="btn-group panelTopOptions panelTopButton" style="float: right;margin-right: 5px;">
-      <button type="button" id="uploadFile" class=" btn hover-light btn-sm btn-filled">
+      <input type="file" ref="fileUpload" style="display:none" @change="uploadCode" >
+      <button type="button" id="uploadFile" class=" btn hover-light btn-sm btn-filled" @click="selectFile" >
         Upload <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
       </button>
       <input type="file" id="upload" style="display:none;">
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    name: 'panel-top',
+    methods: {
+      selectFile () {
+        // open file select dialogue
+        this.$refs.fileUpload.click()
+      },
+      uploadCode (e) {
+        console.log(e)
+        const files = e.target.files || e.dataTransfer.files
+        if (!files.length) {
+          return
+        }
+
+        const file = files[0]
+        const reader = new FileReader()
+        const vm = this
+
+        reader.onload = function (e) {
+          console.log(e.target.result)
+          vm.$store.commit('uploadCode', e.target.result)
+        }
+        reader.readAsText(file)
+      }
+    }
+  }
+</script>

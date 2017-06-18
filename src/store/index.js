@@ -29,6 +29,9 @@ export default new Vuex.Store({
     updateCode (state, val) {
       state.code = val
     },
+    uploadCode (state,val) {
+      state.code = val
+    },
     updateOutput (state,val) {
       state.output = val
     },

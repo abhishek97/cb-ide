@@ -22,8 +22,10 @@
         this.$store.commit('updateCode',this.editor.getValue())
       })
       this.$store.subscribe( (mutation, state) => {
-        if(mutation.type=='resetCode')
-          this.editor.setValue(this.$store.state.code)
+        if(mutation.type=='resetCode' || mutation.type=='uploadCode') {
+        console.log(this.$store.state.code)
+        this.editor.setValue(this.$store.state.code)
+      }
       })
     },
     props: {
