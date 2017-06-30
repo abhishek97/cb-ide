@@ -8,8 +8,18 @@
   import 'brace/mode/java'
   import 'brace/mode/python'
   import 'brace/mode/javascript'
-  import samples from '../../assets/js/sample-source'
+  import 'brace/theme/dawn'
+  import 'brace/theme/github'
+  import 'brace/theme/solarized_light'
+  import 'brace/theme/tomorrow'
+  import 'brace/theme/xcode'
+  import 'brace/theme/cobalt'
+  import 'brace/theme/clouds_midnight'
+  import 'brace/theme/idle_fingers'
+  import 'brace/theme/monokai'
 
+
+  import samples from '../../assets/js/sample-source'
 
   export default {
     name: 'ace-editor',
@@ -21,11 +31,25 @@
       this.editor.on('change', ()=>{
         this.$store.commit('updateCode',this.editor.getValue())
       })
-      this.$store.subscribe( (mutation, state) => {
-        if(mutation.type=='resetCode' || mutation.type=='uploadCode') {
-        console.log(this.$store.state.code)
-        this.editor.setValue(this.$store.state.code)
-      }
+
+      this.$store.subscribe((mutation, state) => {
+        switch (mutation.type) {
+          case "resetCode":
+            this.editor.setValue(this.$store.state.code)
+            break;
+          case "uploadCode":
+            this.editor.setValue(this.$store.state.code)
+            break;
+          case "changeTheme":
+            this.editor.setTheme(`ace/theme/${this.$store.state.theme}`)
+            break;
+          case "changeFont":
+            this.editor.setOptions({fontFamily: this.$store.state.font})
+            break;
+          case "changeFontSize":
+            this.editor.setOptions({fontSize: this.$store.state.fontSize + 'px'})
+            break;
+        }
       })
     },
     props: {

@@ -62,6 +62,10 @@ export default {
     Settings,
     AceEditor
   },
+  mounted () {
+    // set auto save true
+    this.$store.commit('changeAutosave', true)
+  },
   data () {
     return {
       showCustomInput: false,

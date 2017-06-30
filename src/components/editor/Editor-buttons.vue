@@ -7,7 +7,7 @@
           <!-- Single button -->
           <editor-dropdown :options=languages :selected=this.$store.state.language ></editor-dropdown>
           <div class="btn-group">
-            <button type="button" id="settingButton" class="btn hovercard-light btn-sm btn-filled">
+            <button type="button" id="settingButton" class="btn hovercard-light btn-sm btn-filled" @click="settingsToggle">
               Setting <span class="fa fa-cog"></span>
             </button>
           </div>
@@ -23,6 +23,8 @@
           </ul>
         </div>
       </div>
+      <settings v-show="this.$store.state.showSettings" ></settings>
+      <!-- Editor Goes into the slot -->
       <slot></slot>
     </div>
     <p class="autoSaveText">Auto Saved!</p>
@@ -31,9 +33,10 @@
 
 <script>
   import editorDropdown from './editor-dropdown.vue'
+  import Settings from './Settings.vue'
   export default {
     name: 'editor-buttons',
-    components: { editorDropdown },
+    components: { editorDropdown, Settings },
     data () {
       return {
         languages: ['C', 'C++', 'Java', 'Python', 'Javascript']
@@ -42,6 +45,9 @@
     methods: {
       customInputToggle () {
         this.$store.commit('toggleCustomInput')
+      },
+      settingsToggle () {
+        this.$store.commit('toogleSettings')
       }
     }
   }
