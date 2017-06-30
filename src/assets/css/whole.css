@@ -1832,7 +1832,6 @@ textarea {
   line-height: 27px;
   font-style: italic;
   transition: 2s;
-  display: none;
   -webkit-transition: opacity 2.0s ease-in;
   -moz-transition: opacity 2.0s ease-in;
   -o-transition: opacity 2.0s ease-in;

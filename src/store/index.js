@@ -15,14 +15,23 @@ export default new Vuex.Store({
   state: {
     code: samples['C++'],
     language: 'C++',
+    theme: 'dawn',
+    font: 'Dawn',
+    fontSize: 12,
     showCustomInput: 'false',
+    showSettings: false,
     customInput: '',
-    output: ''
+    output: '',
+    autoSave: true,
+    autoSaveIntervalId: null
   },
   mutations: {
     toggleCustomInput (state) {
       state.showCustomInput = !state.showCustomInput
       state.customInput = ''
+    },
+    toogleSettings (state) {
+      state.showSettings = !state.showSettings
     },
     changeLanguage (state, val) {
       state.language = val
@@ -30,27 +39,65 @@ export default new Vuex.Store({
     updateCode (state, val) {
       state.code = val
     },
-    uploadCode (state,val) {
+    uploadCode (state, val) {
       state.code = val
     },
-    updateOutput (state,val) {
+    updateOutput (state, val) {
       state.output = val
     },
     resetCode (state) {
       state.code = samples[state.language]
     },
-    changeCustomInput (state,val) {
+    changeCustomInput (state, val) {
       state.customInput = val
+    },
+    changeTheme (state, val) {
+      state.theme = val
+    },
+    changeFont (state, val) {
+      state.font = val
+    },
+    changeFontSize (state, val) {
+      state.fontSize = val
+    },
+    changeAutosave (state, val) {
+      if (val) {
+        state.autoSaveIntervalId = window.setInterval(()=> {
+          window.localStorage.setItem('code', state.code)
+        }, 1000)
+      } else {
+        window.clearInterval(state.autoSaveIntervalId)
+        state.autoSaveIntervalId = null
+      }
+    },
+    resetEditor (state) {
+      state.commit('changeTheme')
     }
   },
   actions: {
-    runCode ({state,commit}) {
+    runJs (context, {code, input}) {
+        const jsWorker = new Worker('../../static/jsWorker.js')
+        input = JSON.stringify(input)
+        jsWorker.postMessage({code, input})
+        jsWorker.onmessage = function (e) {
+            const output = e.data.join('\n')
+            context.commit('updateOutput', output)
+        }
+    },
+    runCode ({state, commit, dispatch}) {
       let lang='c'
       switch(state.language){
         case 'C++': lang='cpp'; break
         case 'Javascript': lang='js'; break
         case 'Java': lang='java'; break
         case 'Python': lang='py2'; break
+      }
+
+      if ( lang === 'js' ) {
+          return dispatch('runJs', {
+              code: state.code,
+              input: state.customInput
+          })
       }
 
       const config = {
