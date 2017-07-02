@@ -21,6 +21,7 @@ export default new Vuex.Store({
     showCustomInput: 'false',
     showSettings: false,
     customInput: '',
+    customInputBuf: '', //input buffer to store customInput when toggled OFF
     output: '',
     autoSave: true,
     autoSaveIntervalId: null
@@ -28,7 +29,12 @@ export default new Vuex.Store({
   mutations: {
     toggleCustomInput (state) {
       state.showCustomInput = !state.showCustomInput
-      state.customInput = ''
+      if ( state.showCustomInput ) {
+          state.customInput = state.customInputBuf
+      } else {
+          state.customInputBuf = state.customInput
+          state.customInput = ''
+      }
     },
     toogleSettings (state) {
       state.showSettings = !state.showSettings
